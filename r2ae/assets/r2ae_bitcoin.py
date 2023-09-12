@@ -32,7 +32,7 @@ def bitcoin_dataframe(bitcoin_raw_json):
     """
         Convert JSON Result to Pandas DataFrame
     """
-    df = pd.DataFrame(get_bitcoin_price['data'])
+    df = pd.DataFrame(bitcoin_raw_json['data'])
     df['date'] = pd.to_datetime(df['date'])
     df['priceUsd'] = df['priceUsd'].astype(float)
     
