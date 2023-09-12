@@ -9,6 +9,44 @@ from dagster import AssetExecutionContext, MetadataValue, asset
 from wordcloud import STOPWORDS, WordCloud
 
 
+
+# R2AE
+import pandas as pd
+import requests
+
+@asset
+def get_bitcoin_price(context):
+    """
+        Get bitcoin price via coincap API
+    """
+    price_url = "https://api.coincap.io/v2/assets/bitcoin/history?interval=d1"
+    price_data = requests.get(price_url).json()
+
+    context.add_output_metadata({'Number of records': len(price_data['data'])})
+    return price_data
+
+@asset
+def json_to_pandas(get_bitcoin_price):
+    """
+        Convert JSON Result to Pandas DataFrame
+    """
+    df = pd.DataFrame(price_data['data'])
+    df['date'] = pd.to_datetime(df['date'])
+    df['priceUsd'] = df['priceUsd'].astype(float)
+    
+    return df
+    
+
+@asset
+def plot_price_data(get_bitcoin_price):
+    """
+        Plot price data graph
+    """
+
+
+# ------
+
+
 @asset(group_name="hackernews", compute_kind="HackerNews API")
 def hackernews_topstory_ids() -> List[int]:
     """Get up to 500 top stories from the HackerNews topstories endpoint.
