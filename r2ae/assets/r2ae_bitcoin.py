@@ -13,9 +13,11 @@ from wordcloud import STOPWORDS, WordCloud
 # R2AE
 import pandas as pd
 import requests
+import matplotlib.pyplot as plt
+import io, base64
 
 @asset
-def get_bitcoin_price(context):
+def bitcoin_raw_json(context):
     """
         Get bitcoin price via coincap API
     """
@@ -26,11 +28,11 @@ def get_bitcoin_price(context):
     return price_data
 
 @asset
-def json_to_pandas(get_bitcoin_price):
+def bitcoin_dataframe(bitcoin_raw_json):
     """
         Convert JSON Result to Pandas DataFrame
     """
-    df = pd.DataFrame(price_data['data'])
+    df = pd.DataFrame(get_bitcoin_price['data'])
     df['date'] = pd.to_datetime(df['date'])
     df['priceUsd'] = df['priceUsd'].astype(float)
     
@@ -38,11 +40,33 @@ def json_to_pandas(get_bitcoin_price):
     
 
 @asset
-def plot_price_data(get_bitcoin_price):
+def bitcoin_plot(context, bitcoin_dataframe):
     """
         Plot price data graph
     """
 
+    plt.figure(figsize=(10, 6))
+    plt.plot(df['date'], df['priceUsd'])
+    plt.title('R2AE - Bitcoin Price Over Time')
+    plt.xlabel('Date')
+    plt.ylabel('Price (USD)')
+    plt.grid(True)
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+
+    buffer = io.BytesIO()
+    plt.savefig(buffer, format="png")
+
+    # Get the content of the image and encode it to base64
+    encoded_image = base64.b64encode(buffer.getvalue()).decode('utf-8')
+    buffer.close()
+
+    # Save base64 to metadata
+    markdown_code = f"![Bitcoin Price Over Time](data:image/png;base64,{encoded_image})"
+
+    context.add_output_metadata({
+        "preview": MetadataValue.md(markdown_code)
+    })
 
 # ------
 
