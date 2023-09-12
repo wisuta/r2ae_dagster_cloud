@@ -16,7 +16,10 @@ import requests
 import matplotlib.pyplot as plt
 import io, base64
 
-@asset
+@asset(
+    group_name="Bitcoin Price",
+    compute_kind="Python"
+)
 def bitcoin_raw_json(context):
     """
         Get bitcoin price via coincap API
@@ -27,7 +30,10 @@ def bitcoin_raw_json(context):
     context.add_output_metadata({'Number of records': len(price_data['data'])})
     return price_data
 
-@asset
+@asset(
+    group_name="Bitcoin Price",
+    compute_kind="Python"
+)
 def bitcoin_dataframe(bitcoin_raw_json):
     """
         Convert JSON Result to Pandas DataFrame
@@ -39,7 +45,10 @@ def bitcoin_dataframe(bitcoin_raw_json):
     return df
     
 
-@asset
+@asset(
+    group_name="Bitcoin Price",
+    compute_kind="Python"
+)
 def bitcoin_plot(context, bitcoin_dataframe):
     """
         Plot price data graph
