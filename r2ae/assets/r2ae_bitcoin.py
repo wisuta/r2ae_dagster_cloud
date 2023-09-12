@@ -7,7 +7,7 @@ import io
 
 @asset(
     group_name="bitcoin_price",
-    compute_kind="requests"
+    compute_kind="python"
 )
 def bitcoin_raw_json(context):
     """
