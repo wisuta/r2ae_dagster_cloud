@@ -7,7 +7,7 @@ import io
 
 @asset(
     group_name="bitcoin_price",
-    compute_kind="Python"
+    compute_kind="requests"
 )
 def bitcoin_raw_json(context):
     """
@@ -21,7 +21,7 @@ def bitcoin_raw_json(context):
 
 @asset(
     group_name="bitcoin_price",
-    compute_kind="Python"
+    compute_kind="pandas"
 )
 def bitcoin_dataframe(bitcoin_raw_json):
     """
@@ -36,7 +36,7 @@ def bitcoin_dataframe(bitcoin_raw_json):
 
 @asset(
     group_name="bitcoin_price",
-    compute_kind="Matplotlib"
+    compute_kind="matplotlib"
 )
 def bitcoin_plot(context, bitcoin_dataframe):
     """
