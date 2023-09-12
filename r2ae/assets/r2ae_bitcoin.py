@@ -46,7 +46,7 @@ def bitcoin_plot(context, bitcoin_dataframe):
     """
 
     plt.figure(figsize=(10, 6))
-    plt.plot(df['date'], df['priceUsd'])
+    plt.plot(bitcoin_dataframe['date'], bitcoin_dataframe['priceUsd'])
     plt.title('R2AE - Bitcoin Price Over Time')
     plt.xlabel('Date')
     plt.ylabel('Price (USD)')
