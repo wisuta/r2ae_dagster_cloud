@@ -36,13 +36,14 @@ def bitcoin_dataframe(bitcoin_raw_json):
 
 @asset(
     group_name="bitcoin_price",
-    compute_kind="Python"
+    compute_kind="Matplotlib"
 )
 def bitcoin_plot(context, bitcoin_dataframe):
     """
         Plot price data graph
     """
 
+    # Draw plot
     plt.figure(figsize=(10, 6))
     plt.plot(bitcoin_dataframe['date'], bitcoin_dataframe['priceUsd'])
     plt.title('R2AE - Bitcoin Price Over Time')
