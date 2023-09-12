@@ -6,7 +6,7 @@ import base64
 import io
 
 @asset(
-    group_name="Bitcoin Price",
+    group_name="bitcoin_price",
     compute_kind="Python"
 )
 def bitcoin_raw_json(context):
@@ -20,7 +20,7 @@ def bitcoin_raw_json(context):
     return price_data
 
 @asset(
-    group_name="Bitcoin Price",
+    group_name="bitcoin_price",
     compute_kind="Python"
 )
 def bitcoin_dataframe(bitcoin_raw_json):
@@ -35,7 +35,7 @@ def bitcoin_dataframe(bitcoin_raw_json):
     
 
 @asset(
-    group_name="Bitcoin Price",
+    group_name="bitcoin_price",
     compute_kind="Python"
 )
 def bitcoin_plot(context, bitcoin_dataframe):
