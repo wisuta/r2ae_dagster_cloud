@@ -5,7 +5,6 @@ setup(
     install_requires=[
         "dagster",
         "dagster-cloud",
-        "boto3",
         "pandas",
         "matplotlib",
     ],
